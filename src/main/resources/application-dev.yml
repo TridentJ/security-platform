@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    static-path-pattern: /static/**
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/platform?characterEncoding=utf-8&amp;serverTimezone=UTC
+    username: test
+    password: test@1234
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    encoding: UTF-8
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+
+pagehelper:
+  helper-dialect: mariadb
+  reasonable: true
+  support-methods-arguments: true
+  page-size-zero: true

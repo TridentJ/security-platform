@@ -1,0 +1,317 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: trident
+  Date: 2022/5/23
+  Time: 22:31
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>内部漏洞清单</title>
+    <link href="static/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <link href="static/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="static/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    <link href="static/css/toastr.min.css" rel="stylesheet" type="text/css">
+    <link href="static/css/trident.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="static/css/sweetalert2.min.css">
+
+</head>
+<body data-topbar="dark" data-sidebar="dark">
+    <div id="layout-wrapper">
+
+        <div id="head" th:include="head :: common-head"></div>
+        <div id="sidebar" th:include="nav :: common-sidebar"></div>
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="card hidden" id="list-result">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                            <span class="card-title table-head">内部漏洞清单</span>
+                                            <br/>
+
+                                            <div class="table-responsive">
+                                                <table class="table table-hover mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>编号</th>
+                                                            <th>标题</th>
+                                                            <th>项目</th>
+                                                            <th>漏洞类型</th>
+                                                            <th>风险等级</th>
+                                                            <th>必须修复</th>
+                                                            <th>修复状态</th>
+                                                            <th>发布时间</th>
+                                                            <th>预期时间</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="table-body">
+                                                        <template v-for="item in myInVul">
+                                                            <tr>
+                                                                <td>{{item.serialNum}}</td>
+                                                                <td><a :href="'show/' + item.id" target="_blank">{{item.title}}</a></td>
+                                                                <td>{{item.name}}</td>
+                                                                <td>{{item.vulType}}</td>
+
+                                                                <td v-if="item.risk === 1"><button type="button" class="btn btn-primary btn-sm">&nbsp;&nbsp;低&nbsp;&nbsp;</button></td>
+                                                                <td v-else-if="item.risk === 2"><button type="button" class="btn btn-info btn-sm">&nbsp;&nbsp;中&nbsp;&nbsp;</button></td>
+                                                                <td v-else-if="item.risk === 3"><button type="button" class="btn btn-warning btn-sm">&nbsp;&nbsp;高&nbsp;&nbsp;</button></td>
+                                                                <td v-else-if="item.risk === 4"><button type="button" class="btn btn-danger btn-sm">严重</button></td>
+                                                                <td v-else><button type="button" class="btn btn-light btn-sm">错误</button></td>
+
+                                                                <td v-if="item.isNeedFix === 1"><button type="button" class="btn btn-danger btn-sm">是</button></td>
+                                                                <td v-else><button type="button" class="btn btn-secondary btn-sm">否</button></td>
+
+                                                                <td v-if="item.fixStatus === 1"><button type="button" class="btn btn-light btn-sm">待&nbsp;&nbsp;确&nbsp;&nbsp;认</button></td>
+                                                                <td v-else-if="item.fixStatus === 2"><button type="button" class="btn btn-danger btn-sm">确认漏洞</button></td>
+                                                                <td v-else-if="item.fixStatus === 3"><button type="button" class="btn btn-warning btn-sm">修&nbsp;&nbsp;复&nbsp;&nbsp;中</button></td>
+                                                                <td v-else-if="item.fixStatus === 4"><button type="button" class="btn btn-primary btn-sm">等待复测</button></td>
+                                                                <td v-else-if="item.fixStatus === 5"><button type="button" class="btn btn-info btn-sm">等待发布</button></td>
+                                                                <td v-else-if="item.fixStatus === 6"><button type="button" class="btn btn-success btn-sm">修复完成</button></td>
+                                                                <td v-else-if="item.fixStatus === 7"><button type="button" class="btn btn-secondary btn-sm">缓解风险</button></td>
+                                                                <td v-else-if="item.fixStatus === 8"><button type="button" class="btn btn-dark btn-sm">接受风险</button></td>
+                                                                <td v-else><button type="button" class="btn btn-light btn-sm">错误</button></td>
+                                                                <td>{{item.createTime}}</td>
+                                                                <td>{{item.expectTime}}</td>
+
+                                                                <td>
+                                                                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light" title="查看" :onclick="'javascript:getInVulById(' + item.id + ');'"><i class="ri-file-2-fill"></i> </button>
+                                                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" title="修改" :onclick="'javascript:editInVulById(' + item.id + ');'"><i class="ri-pencil-fill"></i> </button>
+                                                                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" title="删除" :onclick="'javascript:delInVulById(' + item.id + ');'"><i class="ri-close-fill"></i> </button>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row" id="pagination">
+                                        <div class="col-2">
+                                            <span id="pagination-header">当前{{start}}-{{end}}条，共{{all}}条记录</span>
+                                        </div>
+                                        <div class="offset-10 col-2">
+
+                                            <nav aria-label="Page navigation">
+                                                <ul class="pagination">
+                                                    <template v-if="myNum === 1">
+                                                        <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(2)">2</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(3)">3</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(4)">4</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(5)">5</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(2)">&raquo;</a></li>
+                                                    </template>
+                                                    <template v-else-if="myNum === 2">
+                                                        <li class="page-item disabled"><a class="page-link" href="javascript:getInVulList(1)">&laquo;</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(1)">1</a></li>
+                                                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(3)">3</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(4)">4</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(5)">5</a></li>
+                                                        <li class="page-item"><a class="page-link" href="javascript:getInVulList(3)">&raquo;</a></li>
+                                                    </template>
+                                                    <template v-else>
+                                                        <li class="page-item"><a :href="'javascript:getInVulList(' + pageNumI1 + ')'">&laquo;</a></li>
+                                                        <li class="page-item"><a :href="'javascript:getInVulList('+ pageNumI2 + ')'">{{pageNumI2}}</a></li>
+                                                        <li class="page-item"><a :href="'javascript:getInVulList('+ pageNumI1 + ')'">{{pageNumI1}}</a></li>
+                                                        <li class="page-item active"><a href="#">{{myNum}}</a></li>
+                                                        <li class="page-item"><a :href="'javascript:getInVulList('+ pageNumA1 + ')'">{{pageNumA1}}</a></li>
+                                                        <li class="page-item"><a :href="'javascript:getInVulList('+ pageNumA2 + ')'">{{pageNumA2}}</a></li>
+                                                        <li class="page-item"><a :href="'javascript:getInVulList('+ pageNumA1 + ')'">&raquo;</a></li>
+                                                    </template>
+
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/metisMenu.min.js"></script>
+    <script src="static/js/simplebar.min.js"></script>
+    <script src="static/js/waves.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/vue.min.js"></script>
+    <script src="static/js/toastr.min.js"></script>
+    <script src="static/js/toastr.config.js"></script>
+    <script src="static/js/sweetalert2.min.js"></script>
+
+
+    <script type="text/javascript">
+
+        let gPageNum = 1;
+        let pageSize = 10;
+        let vBody = null;
+        let vPag = null;
+
+        $(document).ready(function (){
+            $("#in-vul-list").addClass("active");
+
+            $.ajax({
+                type:"GET",
+                url:"api/vulnerabilities/internal/list",
+                dataType:"json",
+                data:{
+                    'pageNum':1,
+                    'pageSize':10
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    toastr["error"]("网络出错！请求失败!");
+                },
+                success:function(res){
+                    if(res.code !==  0){
+                        toastr["error"]("获取漏洞信息失败！" + res.message);
+                    }else if(res.code  === 1006){
+                        toastr["info"](res.message);
+                    }else{
+
+                        vBody = new Vue({
+                            el:'#table-body',
+                            data:{
+                                myInVul:res.content
+                            }
+                        });
+                        vPag = new Vue({
+                            el:'#pagination',
+                            data:{
+                                start:res.start,
+                                end:res.end,
+                                all:res.num,
+                                myNum:gPageNum
+                            },
+                            computed:{
+                                pageNumA1:function(){
+                                    return this.myNum + 1;
+                                },
+                                pageNumA2:function(){
+                                    return this.myNum + 2;
+                                },
+                                pageNumI1:function(){
+                                    return this.myNum - 1;
+                                },
+                                pageNumI2:function(){
+                                    return this.myNum - 2;
+                                }
+                            },
+                        });
+                        if($("#list-result").hasClass('hidden')){
+                            $("#list-result").removeClass("hidden");
+                        }
+                        if(res.end === res.num){
+                            toastr["success"]("已到达最后一页！");
+                        }
+                    }
+                }
+            });
+
+        });
+
+
+        function getInVulList(pageNum){
+            gPageNum = pageNum;
+            $.ajax({
+                type:"GET",
+                url:"api/vulnerabilities/internal/list",
+                dataType:"json",
+                data:{
+                    'pageNum':pageNum,
+                    'pageSize':10
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    toastr["error"]("网络出错！请求失败!");
+                },
+                success:function(res){
+                    if(res.code !==  0){
+                        toastr["error"]("获取漏洞信息失败！" + res.message);
+                    }else if (res.code === 1006) {
+                        toastr["info"](res.message);
+                    } else {
+                        if ($("#list-result").hasClass('hidden')) {
+                            $("#list-result").removeClass("hidden");
+                        }
+                        let inVul = res.content;
+                        let len = vBody.myInVul.length;
+                        vBody.myInVul.splice(0, len);
+                        for (let i = 0; i < inVul.length; i++) {
+                            vBody.myInVul.push(inVul[i]);
+                        }
+                        vPag.start = res.start;
+                        vPag.end = res.end;
+                        vPag.all = res.num;
+                        vPag.myNum = res.pageNum;
+                        //$("#page-num").val(res.pageNum);
+                        gPageNum = res.pageNum;
+                        if (res.end === res.num) {
+                            toastr["success"]("已到达最后一页！");
+                        }
+                    }
+                }
+            });
+        }
+
+        function delInVulById(id){
+            Swal.fire({
+                title: '确认删除？',
+                text: "删除是不可逆操作",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: '确认',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type:"GET",
+                        url:"api/vulnerabilities/internal/del/" + id,
+                        dataType:"json",
+                        error:function(XMLHttpRequest, textStatus, errorThrown){
+                            toastr["error"]("网络出错！请求失败!");
+                        },
+                        success:function(res){
+                            Swal.fire(
+                                '删除成功！',
+                                '操作已完成！',
+                                'success'
+                            );
+                            //刷新一下
+                            getInVulList();
+                        }
+                    });
+                }
+            })
+        }
+
+
+    </script>
+</body>
+</html>

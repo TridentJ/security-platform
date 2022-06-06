@@ -1,0 +1,109 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: trident
+  Date: 2022/5/21
+  Time: 23:02
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <link href="static/css/editor.css" rel="stylesheet" type="text/css">
+    <link href="static/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+</head>
+<body>
+    Test<br/>
+    <div th:text="${test}"></div>
+    <div class="row">
+        <div class="offset-2 col-8">
+            <div id="toolbar-container-content" class="editor-toolbar-border"></div>
+            <div id="editor-container-content" class="editor-border"></div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="offset-1 col-8">
+            <template>
+                <div style="border: 1px solid #ccc;">
+                    <Toolbar
+                            style="border-bottom: 1px solid #ccc"
+                            :editor="editor"
+                            :defaultConfig="toolbarConfig"
+                            :mode="mode"
+                    />
+                    <Editor
+                            style="height: 500px; overflow-y: hidden;"
+                            v-model="html"
+                            :defaultConfig="editorConfig"
+                            :mode="mode"
+                            @onCreated="onCreated"
+                    />
+                </div>
+            </template>
+        </div>
+    </div>
+
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/editor.js"></script>
+    <script src="static/js/editor.config.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/vue.min.js"></script>
+    <!--<script src="static/js/tinymce/tinymce.min.js"></script>-->
+    <script type="text/javascript">
+        $(document).ready(function (){
+            // 创建编辑器
+            editor = createEditor({
+                selector: '#editor-container-content',
+                config: editorConfig,
+                mode: 'default' // 或 'simple' 参考下文
+            })
+            // 创建工具栏
+            toolbar = createToolbar({
+                editor,
+                selector: '#toolbar-container-content',
+                config: toolbarConfig,
+                mode: 'default' // 或 'simple' 参考下文
+            })
+        });
+
+
+    </script>
+
+    <script type="module">
+        //import Vue from 'vue'
+        //import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+        let { Editor, Toolbar } = window.wangEditor
+        export default Vue.extend({
+            components: { Editor, Toolbar },
+            data() {
+                return {
+                    editor: null,
+                    html: '<p>hello</p>',
+                    toolbarConfig: { },
+                    editorConfig: { placeholder: '请输入内容...' },
+                    mode: 'default', // or 'simple'
+                }
+            },
+            methods: {
+                onCreated(editor) {
+                    this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
+                },
+            },
+            mounted() {
+                // 模拟 ajax 请求，异步渲染编辑器
+                setTimeout(() => {
+                    this.html = '<p>模拟 Ajax 异步设置内容 HTML</p>'
+                }, 1500)
+            },
+            beforeDestroy() {
+                const editor = this.editor
+                if (editor == null) return
+                editor.destroy() // 组件销毁时，及时销毁编辑器
+            }
+        })
+    </script>
+
+</body>
+</html>

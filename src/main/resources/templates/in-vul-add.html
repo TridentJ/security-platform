@@ -1,0 +1,407 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: trident
+  Date: 2022/5/25
+  Time: 23:31
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="static/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <link href="static/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="static/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    <link href="static/css/trident.css" rel="stylesheet" type="text/css">
+    <link href="static/css/editor.css" rel="stylesheet" type="text/css">
+    <link href="static/css/toastr.min.css" rel="stylesheet" type="text/css">
+
+</head>
+<body data-topbar="dark" data-sidebar="dark">
+    <div id="layout-wrapper">
+
+        <div id="head" th:include="head :: common-head"></div>
+        <div id="sidebar" th:include="nav :: common-sidebar"></div>
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title table-head">添加内部漏洞</span>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="row" id="in-vul-form">
+                                        <div class="col-12">
+                                            <form id="in-vul-form-base">
+                                            <div class="row mb-3">
+                                                <label for="title" class="col-1 col-form-label">漏洞名称</label>
+                                                <div class="col-11">
+                                                    <input class="form-control" type="text" placeholder="漏洞名称" id="title" v-model="inVulInfo.title">
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-1">
+                                                    <label for="systemId" class="col-form-label">系统</label>
+                                                    <button type="button" id="system-info-refresh" title="刷新" class="btn btn-link btn-sm waves-effect waves-light" @click="getSystemInfo(2)">
+                                                        <i class="ri-refresh-fill"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-3">
+                                                    <select class="form-select" aria-label="选择系统" id="systemId" v-model="inVulInfo.systemId">
+                                                        <option v-for="item in systemInfo" :value="item.id">{{item.name}}</option>
+                                                    </select>
+                                                </div>
+                                                <label for="cve" class="col-1 col-form-label">编号</label>
+                                                <div class="col-3">
+                                                    <input class="form-control" type="text" placeholder="漏洞编号" id="cve" v-model="inVulInfo.cve">
+                                                </div>
+                                                <label class="col-1 col-form-label">强制修复</label>
+                                                <div class="col-3">
+                                                    <select class="form-select" aria-label="强制修复" id="isNeedFix" v-model="inVulInfo.isNeedFix">
+                                                        <option value="1" selected="selected">是</option>
+                                                        <option value="2">否</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-1">
+                                                    <label for="vulType" class="col-form-label">类型</label>
+                                                    <button type="button" id="vul-type-refresh" title="刷新" class="btn btn-link btn-sm waves-effect waves-light hidden" @click="getVulTypeInfo(2)">
+                                                        <i class="ri-refresh-fill"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-3">
+                                                    <select class="form-select" aria-label="漏洞类型" id="vulType" v-model="inVulInfo.vulType">
+                                                        <option selected="selected" value="0"></option>
+                                                        <option v-for="item in vulTypeInfo" :value="item.id">{{item.name}}</option>
+                                                    </select>
+                                                </div>
+                                                <label for="risk" class="col-1 col-form-label">级别</label>
+                                                <div class="col-3">
+                                                    <select class="form-select" aria-label="级别" id="risk" v-model="inVulInfo.risk">
+                                                        <option selected="selected" value="1">低</option>
+                                                        <option value="2">中</option>
+                                                        <option value="3">高</option>
+                                                        <option value="4">严重</option>
+                                                    </select>
+                                                </div>
+                                                <label for="vulStatus" class="col-1 col-form-label">发布状态</label>
+                                                <div class="col-3">
+                                                    <select class="form-select" aria-label="发布状态" id="vulStatus" v-model="inVulInfo.vulStatus">
+                                                        <option value="0">暂存</option>
+                                                        <option selected="selected" value="1">不发布</option>
+                                                        <option value="2">内部发布</option>
+                                                        <option value="3">公开发布</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="expectTime" class="col-1 col-form-label">期望修复时间</label>
+                                                <div class="col-3">
+                                                    <input class="form-control" type="date" id="expectTime" v-model="inVulInfo.expectTime">
+                                                </div>
+                                                <div class="col-1">
+                                                    <label for="securityUser" class="col-form-label">安全员</label>
+                                                    <button type="button" id="security-user-refresh" title="刷新" class="btn btn-link btn-sm waves-effect waves-light hidden" @click="getSecurityUserInfo(2)">
+                                                        <i class="ri-refresh-fill"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-3">
+                                                    <select class="form-select" aria-label="安全负责人" id="securityUser" v-model="inVulInfo.securityUser">
+                                                        <option selected="selected" value="0"></option>
+                                                        <option v-for="item in securityUserInfo" :value="item.id">{{item.realName}}</option>
+                                                    </select>
+                                                </div>
+                                                <label for="fixStatus" class="col-1 col-form-label">漏洞状态</label>
+                                                <div class="col-3">
+                                                    <select class="form-select" aria-label="漏洞状态" id="fixStatus" v-model="inVulInfo.fixStatus">
+                                                        <option value="1">待&nbsp;确&nbsp;认</option>
+                                                        <option value="2">确认漏洞</option>
+                                                        <option value="3">修&nbsp;复&nbsp;中</option>
+                                                        <option value="4">等待复测</option>
+                                                        <option value="5">等待发布</option>
+                                                        <option value="6">修复完成</option>
+                                                        <option value="7">缓解风险</option>
+                                                        <option value="8">接受风险</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row mb-3">
+                                                <label for="url" class="col-1 col-form-label">漏洞URL</label>
+                                                <div class="col-11">
+                                                    <textarea class="input-large form-control" id="url" rows="3" placeholder="漏洞URL，多个URL多行填写" v-model="inVulInfo.url"></textarea>
+                                                </div>
+                                            </div>
+                                            </form>
+                                            <div class="row mb-3">
+                                                <label class="col-1 col-form-label">漏洞详情</label>
+                                                <div class="col-11">
+                                                    <div id="toolbar-content" class="editor-toolbar-border"></div>
+                                                    <div id="editor-content" class="editor-border height-400"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-1 col-form-label">影响&修复</label>
+                                                <div class="col-11">
+                                                    <div id="toolbar-affect" class="editor-toolbar-border"></div>
+                                                    <div id="editor-affect" class="editor-border height-200"></div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="offset-4 col-4">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <button type="button" class="btn btn-success w-md waves-effect waves-light" onclick="addInVul()">
+                                                        <i class="ri-save-3-fill align-middle me-2"></i> 保存
+                                                    </button>
+                                                </div>
+                                                <div class="col-4">
+                                                    <button type="button" class="btn btn-info w-md waves-effect waves-light" onclick="addInVulAndNew()">
+                                                        <i class="ri-file-upload-line align-middle me-2"></i> 保存&添加
+                                                    </button>
+                                                </div>
+                                                <div class="col-4">
+                                                    <button type="button" class="btn btn-warning w-md waves-effect waves-light" onclick="clearInVul()">
+                                                        <i class="ri-eraser-line align-middle me-2"></i> 清空
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="button-items">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/metisMenu.min.js"></script>
+    <script src="static/js/simplebar.min.js"></script>
+    <script src="static/js/waves.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/vue.min.js"></script>
+    <script src="static/js/toastr.min.js"></script>
+    <script src="static/js/toastr.config.js"></script>
+    <script src="static/js/editor.js"></script>
+    <!--<script src="static/js/editor.config.js"></script>-->
+    <script src="static/js/axios.min.js"></script>
+
+    <script type="text/javascript">
+
+        const { createEditor, createToolbar } = window.wangEditor
+        $(document).ready(function (){
+            // 创建编辑器
+            const editorContent = createEditor({
+                selector: '#editor-content',
+                config: {
+                    placeholder:'输入内容',
+                    onChange(editor){
+                        inVul.inVulInfo.content = editor.getHtml();
+                    }
+                },
+                mode: 'default'
+            });
+            // 创建工具栏
+            const toolbarContent = createToolbar({
+                editor: editorContent,
+                selector: '#toolbar-content',
+                config: {
+                    excludeKeys: [
+                        'fullScreen'
+                    ]
+                },
+                mode: 'default'
+            });
+
+            const editorAffect = createEditor({
+                selector: '#editor-affect',
+                config:  {
+                    placeholder:'输入内容',
+                    onChange(editor){
+                        inVul.inVulInfo.affect = editor.getHtml();
+                    }
+                },
+                mode: 'default'
+            })
+            // 创建工具栏
+            const toolbarAffect = createToolbar({
+                editor:editorAffect,
+                selector: '#toolbar-affect',
+                config: {
+                    excludeKeys: [
+                        'fullScreen'
+                    ]
+                },
+                mode: 'default' // 或 'simple' 参考下文
+            })
+
+
+            inVul = new Vue({
+                el: "#in-vul-form-base",
+                data:{
+                    inVulInfo:{
+                        "systemId":0,"title":"","cve":"",
+                        "vulType":0,"risk":1,"isNeedFix":1,
+                        "url":"","content":"","affect":"","vulStatus":1,
+                        "expectTime":"","fixStatus":1,"securityUser":0
+                    },
+                    systemInfo:null,
+                    vulTypeInfo:null,
+                    securityUserInfo:null
+                },
+                mounted:function (){
+                    this.getSystemInfo(1);
+                    this.getVulTypeInfo(1);
+                    this.getSecurityUserInfo();
+                },
+                methods:{
+                    getSystemInfo:function (type){
+                        axios.get("api/system-info/list-name")
+                        .then(function (response){
+                            if(response.data.code === 0){
+                                inVul.systemInfo = response.data.content;
+                                //1初始化，2刷新
+                                if(type === 2){
+                                    toastr["success"]("刷新业务系统清单成功！");
+                                }
+                            }else{
+                                /*if($("#system-info-refresh").hasClass('hidden')){
+                                    $("#system-info-refresh").removeClass('hidden')
+                                }*/
+                                if(type === 1){
+                                    toastr["error"]("获取业务系统清单失败！");
+                                }else if(type === 2){
+                                    toastr["error"]("刷新业务系统清单失败！");
+                                }
+
+                            }
+                        })
+                        .catch(function (error){
+                            /*if($("#system-info-refresh").hasClass('hidden')){
+                                $("#system-info-refresh").removeClass('hidden')
+                            }*/
+                            toastr["error"]("请求错误：获取业务系统清单失败！");
+                        })
+                    },
+                    getVulTypeInfo:function (type){
+                        axios.get("api/vul-type/list")
+                            .then(function (response){
+                                if(response.data.code === 0){
+                                    inVul.vulTypeInfo = response.data.content;
+                                    //1初始化，2刷新
+                                    if(type === 2){
+                                        toastr["success"]("刷新漏洞类型清单成功！");
+                                    }
+                                }else{
+                                    /*if($("#vul-type-refresh").hasClass('hidden')){
+                                        $("#vul-type-refresh").removeClass('hidden')
+                                    }*/
+                                    if(type === 1){
+                                        toastr["error"]("获取漏洞类型清单失败！");
+                                    }else if(type === 2){
+                                        toastr["error"]("刷新漏洞类型清单失败！");
+                                    }
+                                }
+                            })
+                            .catch(function (error){
+                                /*if($("#vul-type-refresh").hasClass('hidden')){
+                                    $("#vul-type-refresh").removeClass('hidden')
+                                }*/
+                                toastr["error"]("请求错误：获取漏洞类型清单失败！");
+                            })
+                    },
+                    getSecurityUserInfo:function (type){
+                        axios.get("api/user/list/active-security-user")
+                            .then(function (response){
+                                if(response.data.code === 0){
+                                    inVul.securityUserInfo = response.data.content;
+                                    //1初始化，2刷新
+                                    if(type === 2){
+                                        toastr["success"]("刷新安全人员清单成功！");
+                                    }
+                                }else{
+                                    /*if($("#security-user-refresh").hasClass('hidden')){
+                                        $("#security-user-refresh").removeClass('hidden')
+                                    }*/
+                                    if(type === 1){
+                                        toastr["error"]("获取安全人员清单失败！");
+                                    }else if(type === 2){
+                                        toastr["error"]("刷新安全人员清单失败！");
+                                    }
+                                }
+                            })
+                            .catch(function (error){
+                                /*if($("#security-user-refresh").hasClass('hidden')){
+                                    $("#security-user-refresh").removeClass('hidden')
+                                }*/
+                                toastr["error"]("请求错误：获取安全人员清单失败！");
+                            })
+                    }
+                }
+            });
+            //document.ready
+        });
+
+
+
+        function clearInVul(){
+            inVul.inVulInfo = {
+                "systemId":0,"title":"","cve":"",
+                "vulType":0,"risk":1,"isNeedFix":1,
+                "url":"","content":"","affect":"","vulStatus":1,
+                "expectTime":"","fixStatus":1,"securityUser":0
+            }
+        }
+
+        function addInVul(){
+            $.ajax({
+                type:"POST",
+                url:"api/vulnerabilities/internal/add",
+                dataType:"json",
+                data:inVul.inVulInfo,
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    toastr["error"]("网络出错！请求失败!");
+                },
+                success:function(res){
+                    if (res.code === 1002) {
+                        toastr["error"](res.message);
+                    } else if(res.code === 0){
+                        toastr["info"]("添加内部漏洞成功");
+                    }else{
+                        toastr["error"]("添加内部漏洞错误！");
+                    }
+                }
+            });
+        }
+
+
+    </script>
+</body>
+</html>

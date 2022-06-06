@@ -1,0 +1,126 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: trident
+  Date: 2022/5/22
+  Time: 14:43
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div th:fragment="common-sidebar">
+    <div class="vertical-menu">
+
+        <div data-simplebar="" class="h-100">
+
+            <div id="sidebar-menu">
+                <ul class="metismenu list-unstyled" id="side-menu">
+
+                    <li>
+                        <a href="dashboard" class="waves-effect">
+                            <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end"><!--3--></span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-title">漏洞管理</li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="ri-bug-line"></i>
+                            <span>内部漏洞</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a id="in-vul-list" href="in-vul-list">漏洞清单</a></li>
+                            <li><a href="in-vul-add">添加漏洞</a></li>
+                            <li><a href="in-vul-search">搜索漏洞</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="ri-bug-2-line"></i>
+                            <span>外部漏洞</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="out-vul-list.html">漏洞清单</a></li>
+                            <li><a href="out-vul-add.html">添加漏洞</a></li>
+                            <li><a href="out-vul-search.html">搜索漏洞</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="ri-barcode-box-line"></i>
+                            <span>漏洞类型</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="vul-type-list.html">漏洞类型清单</a></li>
+                            <li><a href="vul-type-add.html">添加漏洞类型</a></li>
+                            <li><a href="vul-type-search.html">搜索漏洞类型</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="ri-server-line"></i>
+                            <span>业务管理</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="system-info-list.html">业务清单</a></li>
+                            <li><a href="system-info-add.html">添加业务</a></li>
+                            <li><a href="system-info-search.html">搜索业务</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-title">DevSecOps</li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="ri-apps-line"></i>
+                            <span>SCA管理</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="sca-list.html">SCA清单</a></li>
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow">项目管理</a>
+                                <ul>
+                                    <li><a href="sca-project-list.html">项目清单</a></li>
+                                    <li><a href="sca-project-add.html">添加项目</a></li>
+                                    <li><a href="sca-project-search.html">搜索项目</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="ri-scan-2-fill"></i>
+                            <span>API扫描</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="api-scan-list.html">扫描清单</a></li>
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow">项目管理</a>
+                                <ul>
+                                    <li><a href="sca-project-list.html">项目清单</a></li>
+                                    <li><a href="sca-project-add.html">添加项目</a></li>
+                                    <li><a href="sca-project-search.html">搜索项目</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

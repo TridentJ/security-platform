@@ -1,0 +1,55 @@
+.trident-logo-font{
+    font-size: large;
+}
+
+.table-head{
+    color:red;
+    font-weight: bold;
+    font-size: large;
+}
+
+.editor-height{
+    height: 500px;
+}
+
+.editor-toolbar-border{
+    border: 1px solid #ccc;
+    z-index: 100;
+}
+.editor-border{
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    z-index: 100;
+}
+
+.hidden{
+    display: none;
+}
+
+.height-500{
+    height: 500px;
+}
+.height-400{
+    height: 400px;
+}
+.height-300{
+    height: 300px;
+}
+.height-200{
+    height: 200px;
+}
+
+.w-e-toolbar {
+     z-index: 2!important;
+ }
+.w-e-menu {
+    z-index: 2 !important;
+}
+.w-e-text-container {
+    z-index: 1 !important;
+}
+
+
+
+
