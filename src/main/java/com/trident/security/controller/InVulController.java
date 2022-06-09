@@ -7,6 +7,7 @@
 package com.trident.security.controller;
 
 
+import com.github.yitter.idgen.YitIdHelper;
 import com.trident.security.bean.InVul;
 import com.trident.security.bean.SystemInfo;
 import com.trident.security.service.InVulService;
@@ -150,6 +151,7 @@ public class InVulController {
         try {
             //System.out.println(inVulInfo.toString());
             InVul inVul = new InVul();
+            inVul.setId(YitIdHelper.nextId());
             inVul.setSystemId(inVulInfo.getSystemId());
             inVul.setTitle(Encode.forHtmlAttribute(inVulInfo.getTitle()));
             inVul.setSerialNum(inVul.getSerialNum());
