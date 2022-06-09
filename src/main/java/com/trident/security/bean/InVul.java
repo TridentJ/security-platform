@@ -10,7 +10,7 @@ public class InVul {
      *
      * @mbg.generated
      */
-    private Integer id;
+    private Long id;
 
     /**
      *
@@ -190,7 +190,7 @@ public class InVul {
      *
      * @mbg.generated
      */
-    private Integer securityUser;
+    private Long securityUser;
 
     /**
      *
@@ -209,7 +209,7 @@ public class InVul {
      *
      * @mbg.generated
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -221,7 +221,7 @@ public class InVul {
      *
      * @mbg.generated
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -689,7 +689,7 @@ public class InVul {
      *
      * @mbg.generated
      */
-    public Integer getSecurityUser() {
+    public Long getSecurityUser() {
         return securityUser;
     }
 
@@ -701,7 +701,7 @@ public class InVul {
      *
      * @mbg.generated
      */
-    public void setSecurityUser(Integer securityUser) {
+    public void setSecurityUser(Long securityUser) {
         this.securityUser = securityUser;
     }
 

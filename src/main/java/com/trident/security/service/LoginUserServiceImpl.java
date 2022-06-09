@@ -23,7 +23,7 @@ public class LoginUserServiceImpl implements LoginUserService {
     @Override
     public List<LoginUser> getAllUser() throws Exception {
         LoginUserExample loginUserExample = new LoginUserExample();
-        loginUserExample.createCriteria().andIdGreaterThan(0);
+        loginUserExample.createCriteria().andIdGreaterThan((long)0);
         loginUserExample.setOrderByClause("id desc");
         List<LoginUser> loginUserList = loginUserMapper.selectByExample(loginUserExample);
         return loginUserList;
@@ -33,7 +33,7 @@ public class LoginUserServiceImpl implements LoginUserService {
     public List<LoginUser> getUserByUserTypeAndStatus(Integer userType,Integer status) throws Exception {
         LoginUserExample loginUserExample = new LoginUserExample();
         LoginUserExample.Criteria criteria = loginUserExample.createCriteria();
-        criteria.andIdGreaterThan(0);
+        criteria.andIdGreaterThan((long)0);
         if(userType > 0){
             criteria.andUserTypeEqualTo(userType);
         }
@@ -47,7 +47,7 @@ public class LoginUserServiceImpl implements LoginUserService {
     }
     
     @Override
-    public LoginUser getUserById(Integer id) throws Exception {
+    public LoginUser getUserById(Long id) throws Exception {
         
         return loginUserMapper.selectByPrimaryKey(id);
     }
@@ -56,7 +56,7 @@ public class LoginUserServiceImpl implements LoginUserService {
     @Override
     public Long getAllCount() throws Exception {
         LoginUserExample loginUserExample = new LoginUserExample();
-        loginUserExample.createCriteria().andIdGreaterThan(-1);
+        loginUserExample.createCriteria().andIdGreaterThan((long)0);
         return loginUserMapper.countByExample(loginUserExample);
     }
 }

@@ -205,52 +205,52 @@ public class InVulExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Integer value) {
+        public Criteria andIdEqualTo(Long value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Integer value) {
+        public Criteria andIdNotEqualTo(Long value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Integer value) {
+        public Criteria andIdGreaterThan(Long value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Integer value) {
+        public Criteria andIdLessThan(Long value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
+        public Criteria andIdLessThanOrEqualTo(Long value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Integer> values) {
+        public Criteria andIdIn(List<Long> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Integer> values) {
+        public Criteria andIdNotIn(List<Long> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Integer value1, Integer value2) {
+        public Criteria andIdBetween(Long value1, Long value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andIdNotBetween(Long value1, Long value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -1495,52 +1495,52 @@ public class InVulExample {
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserEqualTo(Integer value) {
+        public Criteria andSecurityUserEqualTo(Long value) {
             addCriterion("security_user =", value, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserNotEqualTo(Integer value) {
+        public Criteria andSecurityUserNotEqualTo(Long value) {
             addCriterion("security_user <>", value, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserGreaterThan(Integer value) {
+        public Criteria andSecurityUserGreaterThan(Long value) {
             addCriterion("security_user >", value, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserGreaterThanOrEqualTo(Integer value) {
+        public Criteria andSecurityUserGreaterThanOrEqualTo(Long value) {
             addCriterion("security_user >=", value, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserLessThan(Integer value) {
+        public Criteria andSecurityUserLessThan(Long value) {
             addCriterion("security_user <", value, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserLessThanOrEqualTo(Integer value) {
+        public Criteria andSecurityUserLessThanOrEqualTo(Long value) {
             addCriterion("security_user <=", value, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserIn(List<Integer> values) {
+        public Criteria andSecurityUserIn(List<Long> values) {
             addCriterion("security_user in", values, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserNotIn(List<Integer> values) {
+        public Criteria andSecurityUserNotIn(List<Long> values) {
             addCriterion("security_user not in", values, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserBetween(Integer value1, Integer value2) {
+        public Criteria andSecurityUserBetween(Long value1, Long value2) {
             addCriterion("security_user between", value1, value2, "securityUser");
             return (Criteria) this;
         }
 
-        public Criteria andSecurityUserNotBetween(Integer value1, Integer value2) {
+        public Criteria andSecurityUserNotBetween(Long value1, Long value2) {
             addCriterion("security_user not between", value1, value2, "securityUser");
             return (Criteria) this;
         }

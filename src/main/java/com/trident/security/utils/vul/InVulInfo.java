@@ -9,7 +9,7 @@ package com.trident.security.utils.vul;
 
 public class InVulInfo {
     
-    private Integer id;
+    private Long id;
     private Integer systemId;
     private String title;
     private String cve;
@@ -25,13 +25,13 @@ public class InVulInfo {
     private Integer fixStatus;
     private String expectTime;
     private String fixedTime;
-    private Integer securityUser;
+    private Long securityUser;
     
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
     
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
@@ -155,11 +155,11 @@ public class InVulInfo {
         this.fixedTime = fixedTime;
     }
     
-    public Integer getSecurityUser() {
+    public Long getSecurityUser() {
         return securityUser;
     }
     
-    public void setSecurityUser(Integer securityUser) {
+    public void setSecurityUser(Long securityUser) {
         this.securityUser = securityUser;
     }
 }

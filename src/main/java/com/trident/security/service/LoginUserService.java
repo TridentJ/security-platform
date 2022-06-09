@@ -14,7 +14,7 @@ public interface LoginUserService {
     
     List<LoginUser> getAllUser() throws Exception;
     List<LoginUser> getUserByUserTypeAndStatus(Integer userType,Integer status) throws Exception;
-    LoginUser getUserById(Integer id) throws Exception;
+    LoginUser getUserById(Long id) throws Exception;
     Long getAllCount() throws Exception;
     
 }

@@ -198,7 +198,7 @@ public class InVulController {
     @ApiOperation(value="删除内部漏洞（设置状态标志）")
     @GetMapping("/del/{id}")
     @ApiImplicitParam(name = "id",value = "需要删除的漏洞ID",required = true,paramType = "path")
-    public Response deleteInVulById(@PathVariable(required = true) Integer id){
+    public Response deleteInVulById(@PathVariable(required = true) Long id){
         Response response = new Response();
         try {
             if(id <= 0){

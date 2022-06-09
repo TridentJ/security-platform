@@ -27,7 +27,7 @@ public class InVulServiceImpl implements InVulService {
     @Override
     public List<InVul> getAllInVul(Integer pageNum, Integer pageSize) throws Exception {
         InVulExample inVulExample = new InVulExample();
-        inVulExample.createCriteria().andIdGreaterThan(0);
+        inVulExample.createCriteria().andIdGreaterThan((long)0);
         inVulExample.setOrderByClause("id desc");
         PageHelper.startPage(pageNum,pageSize);
         return inVulMapper.selectByExample(inVulExample);
@@ -36,7 +36,7 @@ public class InVulServiceImpl implements InVulService {
     @Override
     public List<InVul> getAllActiveInVul(Integer pageNum, Integer pageSize) throws Exception {
         InVulExample inVulExample = new InVulExample();
-        inVulExample.createCriteria().andIdGreaterThan(0).andVulStatusGreaterThan(0);
+        inVulExample.createCriteria().andIdGreaterThan((long)0).andVulStatusGreaterThan(0);
         inVulExample.setOrderByClause("id desc");
         PageHelper.startPage(pageNum,pageSize);
         return inVulMapper.selectByExample(inVulExample);
@@ -52,7 +52,7 @@ public class InVulServiceImpl implements InVulService {
     }
     
     @Override
-    public InVul getInVulById(Integer id) throws Exception {
+    public InVul getInVulById(Long id) throws Exception {
         return inVulMapper.selectByPrimaryKey(id);
     }
     
@@ -109,12 +109,12 @@ public class InVulServiceImpl implements InVulService {
     }
     
     @Override
-    public Integer deleteInVulById(Integer id) throws Exception {
+    public Integer deleteInVulById(Long id) throws Exception {
         return inVulMapper.deleteByPrimaryKey(id);
     }
     
     @Override
-    public Integer changeStatusById(Integer id, Integer status) throws Exception {
+    public Integer changeStatusById(Long id, Integer status) throws Exception {
         InVul inVul = new InVul();
         inVul.setVulStatus(status);
         inVul.setId(id);
@@ -124,7 +124,7 @@ public class InVulServiceImpl implements InVulService {
     @Override
     public Integer getAllCount() throws Exception {
         InVulExample inVulExample = new InVulExample();
-        inVulExample.createCriteria().andIdGreaterThan(-1);
+        inVulExample.createCriteria().andIdGreaterThan((long)0);
         Long size = inVulMapper.countByExample(inVulExample);
         return size.intValue();
     }

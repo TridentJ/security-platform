@@ -28,15 +28,7 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
     
-    
-        <table tableName="in_vul">
-            <generatedKey column="id" sqlStatement="MySql"/>
-            <columnOverride column="content" jdbcType="VARCHAR" />
-            <columnOverride column="url" jdbcType="VARCHAR" />
-            <columnOverride column="affect" jdbcType="VARCHAR" />
-            <columnOverride column="fix" jdbcType="VARCHAR" />
-            <columnOverride column="mitigation" jdbcType="VARCHAR" />
-        </table>
+        
         <!--<table tableName="out_vul">
             <generatedKey column="id" sqlStatement="MySql"/>
             <columnOverride column="affect" jdbcType="VARCHAR" />
@@ -45,7 +37,7 @@
         </table>
         
         <table tableName="in_vul">
-            <generatedKey column="id" sqlStatement="MySql"/>
+            
             <columnOverride column="content" jdbcType="VARCHAR" />
             <columnOverride column="url" jdbcType="VARCHAR" />
             <columnOverride column="affect" jdbcType="VARCHAR" />
